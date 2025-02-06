@@ -18,7 +18,7 @@ import sampleData from "../sampleData/sample.json";
 //     console.error("Error fetching data:", error);
 //     return {
 //       props: {
-//         error: "Failed to fetch data", // Handle errors gracefully
+//         error: "Failed to fetch data", // Handle errors
 //       },
 //     };
 //   }
