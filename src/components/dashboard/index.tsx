@@ -10,13 +10,13 @@ import {
   SidebarMenuItem,
   SidebarTrigger,
 } from "../ui/sidebar";
-import PackageDetails from "../packageInfo";
-import DependenciesTable from "../dependencies";
-import Vulnerabilities from "../vulnerabilities";
+import PackageDetails from "../package-Info";
+import DependenciesTable from "../package-dependencies";
+import Vulnerabilities from "../package-vulnerabilities";
 import ProjectInsights from "../projectinsight";
-import PackageInfo from "../packages";
+import PackageInfo from "../packages-licenses";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import VersionLists from "../versions";
+import VersionLists from "../package-versions";
 
 interface InsightData {
   packageVersion?: {

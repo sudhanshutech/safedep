@@ -1,4 +1,4 @@
-import ChatsHome from "@/components/visuals";
+import ChatsHome from "@/components/dashboard";
 import { getPackageVersionInsightData } from "../../insights-client";
 import sampleData from "../sampleData/sample.json";
 
