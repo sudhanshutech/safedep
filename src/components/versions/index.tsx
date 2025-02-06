@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Table,
   TableHeader,
@@ -10,7 +9,6 @@ import {
 import { useState } from "react";
 
 export default function VersionLists({ insights }) {
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const versions = insights?.insight?.availableVersions || [];
@@ -34,19 +32,24 @@ export default function VersionLists({ insights }) {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-semibold mb-4">Available Versions</h2>
-      <Table className="w-full mb-4">
+    <div>
+      <h2 className="text-xl font-semibold mb-4 mt-10">Available Versions</h2>
+      <Table className="w-full border border-gray-300 rounded-lg">
         <TableHeader>
           <TableRow>
-            <TableHead>Version</TableHead>
+            <TableHead className="w-[400px]">Version</TableHead>
             <TableHead>Published At</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {displayedVersions.map((version, index) => (
-            <TableRow key={index}>
-              <TableCell>{version.version}</TableCell>
+            <TableRow
+              key={index}
+              className={`hover:bg-gray-50 ${
+                index % 2 === 0 ? "bg-white" : "bg-gray-100"
+              }`}
+            >
+              <TableCell className="font-bold">{version.version}</TableCell>
               <TableCell>
                 {new Date(version.publishedAt).toLocaleDateString()}
               </TableCell>
@@ -56,7 +59,7 @@ export default function VersionLists({ insights }) {
       </Table>
       <div className="flex justify-between items-center mt-4">
         <button
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded hover:from-blue-600 hover:to-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
         >
@@ -66,7 +69,7 @@ export default function VersionLists({ insights }) {
           Page {currentPage} of {totalPages}
         </span>
         <button
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded hover:from-blue-600 hover:to-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
         >

@@ -18,7 +18,7 @@ export default function ProjectInsights({ insights }) {
   }));
 
   return (
-    <div className="p-4" style={{ width: "540px" }}>
+    <div className="p-4" style={{ width: "600px" }}>
       <Card className="w-full md:w-auto max-w-md mb-6 shadow-lg">
         <CardContent className="p-6">
           <div className="mb-4">

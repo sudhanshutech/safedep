@@ -4,14 +4,18 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge"; // Import Badge component
 
 export default function Vulnerabilities({ insights }) {
   return (
     <>
-      <h2 className="text-xl font-bold mb-4">Vulnerabilities</h2>
+      <h2 className="text-xl font-bold mb-4 mt-10">Vulnerabilities</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {insights?.insight?.vulnerabilities.map((vul, index) => (
-          <Card key={index} className="border border-gray-300 p-4 shadow">
+          <Card
+            key={index}
+            className="border border-gray-300 p-4 shadow bg-white"
+          >
             <CardHeader>
               <h3 className="text-lg font-semibold text-red-600">
                 {vul.summary}
@@ -23,7 +27,9 @@ export default function Vulnerabilities({ insights }) {
               </p>
               <p>
                 <strong>Risk Level:</strong>{" "}
-                {vul.severities[0]?.risk || "Unknown"}
+                <Badge className="bg-yellow-500 text-white">
+                  {vul.severities[0]?.risk || "Unknown"}
+                </Badge>
               </p>
               <p>
                 <strong>Published At:</strong>{" "}
