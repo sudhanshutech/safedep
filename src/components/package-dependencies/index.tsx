@@ -7,6 +7,13 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { Badge } from "../ui/badge";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
 
 export default function DependenciesTable({ insights }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,17 +26,10 @@ export default function DependenciesTable({ insights }) {
     currentPage * itemsPerPage
   );
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
   return (
     <div>
       <h3 className="text-xl font-semibold mb-4 mt-10">Dependencies</h3>
@@ -38,7 +38,7 @@ export default function DependenciesTable({ insights }) {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[400px]">Name</TableHead>
-              <TableHead className=" px-4 py-2 border-b-2 border-gray-200">
+              <TableHead className="px-4 py-2 border-b-2 border-gray-200">
                 Version
               </TableHead>
             </TableRow>
@@ -52,30 +52,69 @@ export default function DependenciesTable({ insights }) {
                 }`}
               >
                 <TableCell className="font-bold">{dep.package.name}</TableCell>
-                <TableCell>{dep.version}</TableCell>
+                <TableCell>
+                  <Badge className="bg-blue-600 bg-opacity-70 text-gray backdrop-blur-lg">
+                    {dep.version}
+                  </Badge>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-between items-center mt-4">
-        <button
-          className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded hover:from-blue-600 hover:to-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded hover:from-blue-600 hover:to-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem className="mr-4">
+              <PaginationLink
+                onClick={
+                  currentPage === 1
+                    ? undefined
+                    : () => handlePageChange(currentPage - 1)
+                }
+                className={
+                  currentPage === 1 ? "text-gray-400 cursor-not-allowed" : ""
+                }
+                isDisabled={currentPage === 1}
+              >
+                Previous
+              </PaginationLink>
+            </PaginationItem>
+
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+              (page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink
+                    isActive={page === currentPage}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              )
+            )}
+
+            <PaginationItem>
+              <PaginationLink
+                onClick={
+                  currentPage === totalPages
+                    ? undefined
+                    : () => handlePageChange(currentPage + 1)
+                }
+                className={
+                  currentPage === totalPages
+                    ? "text-gray-400 cursor-not-allowed"
+                    : ""
+                }
+                isDisabled={currentPage === totalPages}
+              >
+                Next
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

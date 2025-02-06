@@ -7,6 +7,12 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { useState } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from "../ui/pagination";
 
 export default function VersionLists({ insights }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,16 +25,41 @@ export default function VersionLists({ insights }) {
     currentPage * itemsPerPage
   );
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+  const generatePageNumbers = () => {
+    const pages = [];
+
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, index) => index + 1);
     }
+
+    if (currentPage <= 3) {
+      pages.push(1, 2, 3, 4, 5, "...");
+    } else if (currentPage > totalPages - 3) {
+      pages.push(
+        "...",
+        totalPages - 4,
+        totalPages - 3,
+        totalPages - 2,
+        totalPages - 1,
+        totalPages
+      );
+    } else {
+      pages.push(
+        1,
+        "...",
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        "...",
+        totalPages
+      );
+    }
+
+    return pages;
   };
 
   return (
@@ -57,24 +88,64 @@ export default function VersionLists({ insights }) {
           ))}
         </TableBody>
       </Table>
-      <div className="flex justify-between items-center mt-4">
-        <button
-          className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded hover:from-blue-600 hover:to-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded hover:from-blue-600 hover:to-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        <Pagination>
+          <PaginationContent>
+            {/* Previous Button */}
+            <PaginationItem className="mr-4">
+              <PaginationLink
+                onClick={
+                  currentPage === 1
+                    ? undefined
+                    : () => handlePageChange(currentPage - 1)
+                }
+                className={
+                  currentPage === 1 ? "text-gray-400 cursor-not-allowed" : ""
+                }
+                isDisabled={currentPage === 1}
+              >
+                Previous
+              </PaginationLink>
+            </PaginationItem>
+
+            {/* Page Numbers with Ellipsis */}
+            {generatePageNumbers().map((page, index) => (
+              <PaginationItem key={index}>
+                {page === "..." ? (
+                  <span className="px-3 py-1 text-gray-500">...</span>
+                ) : (
+                  <PaginationLink
+                    isActive={page === currentPage}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </PaginationLink>
+                )}
+              </PaginationItem>
+            ))}
+
+            {/* Next Button */}
+            <PaginationItem>
+              <PaginationLink
+                onClick={
+                  currentPage === totalPages
+                    ? undefined
+                    : () => handlePageChange(currentPage + 1)
+                }
+                className={
+                  currentPage === totalPages
+                    ? "text-gray-400 cursor-not-allowed"
+                    : ""
+                }
+                isDisabled={currentPage === totalPages}
+              >
+                Next
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

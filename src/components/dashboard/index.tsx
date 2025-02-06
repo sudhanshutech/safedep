@@ -110,7 +110,7 @@ export default function ChatsHome({ insights, error }: PageProps) {
             <TabsList>
               <TabsTrigger value="info">Package Info</TabsTrigger>
               <TabsTrigger value="dependencies">Dependencies</TabsTrigger>
-              <TabsTrigger value="vulnerabilites">Vulnerabilites</TabsTrigger>
+              <TabsTrigger value="vulnerabilites">Vulnerabilities</TabsTrigger>
               <TabsTrigger value="versions">Available versions</TabsTrigger>
             </TabsList>
             <TabsContent value="info">
