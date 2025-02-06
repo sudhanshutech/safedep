@@ -1,34 +1,21 @@
-import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import React, { useState } from 'react';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarTrigger,
+} from "../ui/sidebar";
+import PackageDetails from "../packageInfo";
+import DependenciesTable from "../dependencies";
+import Vulnerabilities from "../vulnerabilities";
+import ProjectInsights from "../projectinsight";
+import PackageInfo from '../packages';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-// Type definitions for better type safety
 interface InsightData {
   packageVersion?: {
     package?: {
@@ -45,6 +32,21 @@ interface InsightData {
       id: { value: string };
       summary: string;
     }>;
+    projectInsights: Array<{
+      project: {
+        name: string;
+      };
+      stars: string;
+      forks: string;
+      issues: {
+        open: string;
+      };
+    }>;
+    licenses: {
+      licenses: Array<{
+        licenseId: string;
+      }>;
+    };
   };
 }
 
@@ -53,7 +55,37 @@ interface PageProps {
   error?: string;
 }
 
+const sideBarItems = [
+  {
+    title: "Package Details",
+    icon: "📦",
+    component: PackageDetails,
+  },
+  {
+    title: "Dependencies",
+    icon: "🔗",
+    component: DependenciesTable,
+  },
+  {
+    title: "Licenses",
+    icon: "📜",
+    component: PackageInfo,
+  },
+  {
+    title: "Vulnerabilities",
+    icon: "⚠️",
+    component: Vulnerabilities,
+  },
+  {
+    title: "Project Insights",
+    icon: "📊",
+    component: ProjectInsights,
+  },
+];
+
 export default function ChatsHome({ insights, error }: PageProps) {
+  const [activeComponent, setActiveComponent] = useState<React.ComponentType | null>(null);
+
   if (error) {
     return <div className="text-red-500 p-4">Error: {error}</div>;
   }
@@ -62,86 +94,36 @@ export default function ChatsHome({ insights, error }: PageProps) {
     return <div className="p-4">Loading...</div>;
   }
 
-  const dependencyData = {
-    labels: insights.insight?.dependencies.map((dep) => dep.package.name) || [],
-    datasets: [
-      {
-        label: "Dependencies",
-        data:
-          insights.insight?.dependencies.map((dep) =>
-            parseFloat(dep.version)
-          ) || [],
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
-
   return (
-    <div className="container mx-auto p-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>Package Security Dashboard</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <section className="mb-8">
-            <h3 className="text-xl font-semibold mb-3">Package Details</h3>
-            <div className="space-y-2">
-              <p className="text-gray-700">
-                📦 Name: {insights.packageVersion?.package?.name || "N/A"}
-              </p>
-              <p className="text-gray-700">
-                🏷️ Version: {insights.packageVersion?.version || "N/A"}
-              </p>
-            </div>
-          </section>
-        </CardContent>
-      </Card>
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-3">Dependencies</h3>
-        <Bar data={dependencyData} />
-      </section>
+    <>
+     <div className="flex min-h-screen">
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Application</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {sideBarItems.map((item, index) => (
+                  <SidebarMenuItem
+                    key={index}
+                    onClick={() => setActiveComponent(() => item.component)}
+                  >
+                    <SidebarMenuButton>
+                      {item.icon} {item.title}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <SidebarTrigger />
 
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-3">Dependencies Table</h3>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Version</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {insights.insight?.dependencies.map((dep, index) => (
-              <TableRow key={index}>
-                <TableCell>{dep.package.name}</TableCell>
-                <TableCell>{dep.version}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </section>
-
-      <section>
-        <h3 className="text-xl font-semibold mb-3">Vulnerabilities</h3>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Summary</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {insights.insight?.vulnerabilities.map((vul, index) => (
-              <TableRow key={index}>
-                <TableCell>{vul.id.value}</TableCell>
-                <TableCell>{vul.summary}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </section>
+      <div className="flex-1 p-8">
+        {activeComponent && React.createElement(activeComponent, { insights })}
+      </div>
     </div>
+    </>
   );
 }
