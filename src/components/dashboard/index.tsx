@@ -17,6 +17,8 @@ import ProjectInsights from "../projectinsight";
 import PackageInfo from "../packages-licenses";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import VersionLists from "../package-versions";
+import ExpressImage from '../../assests/images/express.png';
+import Image from "next/image";
 
 interface InsightData {
   packageVersion?: {
@@ -60,7 +62,7 @@ interface PageProps {
 const sideBarItems = [
   {
     title: "Express",
-    icon: "📦",
+    icon: <Image src={ExpressImage} alt="Express" width={20} height={20} />,
     component: "",
   },
 ];

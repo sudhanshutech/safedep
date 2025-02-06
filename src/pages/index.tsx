@@ -1,6 +1,9 @@
 import ChatsHome from "@/components/dashboard";
-import { getPackageVersionInsightData } from "../../insights-client";
 import sampleData from "../sampleData/sample.json";
+
+/* This component is the fetching data from the insights-client using server side props */
+
+// import { getPackageVersionInsightData } from "../../insights-client";
 
 // export async function getServerSideProps() {
 //   try {
@@ -20,9 +23,9 @@ import sampleData from "../sampleData/sample.json";
 //     };
 //   }
 // }
+
 export default function Home({ data, error }) {
   const InsightsData = sampleData;
-  // console.log("Data in page:", data);
   if (error) {
     return <div className="text-red-500 p-4">Error: {error}</div>;
   }
