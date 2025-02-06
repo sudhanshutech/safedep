@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   RadarChart,
   PolarGrid,
@@ -18,23 +18,21 @@ export default function ProjectInsights({ insights }) {
   }));
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-6">Project Insights</h2>
-      <Card className="w-104 shadow-lg">
-        <CardHeader className="bg-gray-100 p-4">
-          <h3 className="text-xl font-semibold">
-            <a
-              href={githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
-            >
-              {project?.name}
-            </a>
-          </h3>
-        </CardHeader>
+    <div className="p-4" style={{ width: "540px" }}>
+      <Card className="w-full md:w-auto max-w-md mb-6 shadow-lg">
         <CardContent className="p-6">
           <div className="mb-4">
+            <p className="mb-2">
+              <strong>Project:</strong>{" "}
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                {project?.name}
+              </a>
+            </p>
             <p className="mb-2">
               <strong>Stars:</strong>{" "}
               {insights?.insight?.projectInsights?.[0]?.stars}
