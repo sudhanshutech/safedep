@@ -12,9 +12,15 @@ interface Insights {
 export default function PackageDetails({ insights }: { insights: Insights }) {
   return (
     <div className="p-4">
-    <Card className="w-full h-60 md:w-auto max-w-md mb-6" style={{ background: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(164,60,230,1) 0%, rgba(237,222,222,1) 62%, rgba(233,226,216,1) 100%, rgba(252,176,69,1) 100%)' }}>
+      <Card
+        className="w-full h-60 md:w-auto max-w-md mb-6"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(164,60,230,1) 0%, rgba(237,222,222,1) 62%, rgba(233,226,216,1) 100%, rgba(252,176,69,1) 100%)",
+        }}
+      >
         <CardHeader>
-          <CardTitle>Package Information</CardTitle>
+          <h3 className="text-xl font-semibold">Package Information</h3>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">

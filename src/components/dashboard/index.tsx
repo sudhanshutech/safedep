@@ -19,6 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import VersionLists from "../package-versions";
 import ExpressImage from "../../assests/images/express.png";
 import Image from "next/image";
+import DependencyGraph from "../package-dependencyGraph";
 
 interface InsightData {
   packageVersion?: {
@@ -112,6 +113,7 @@ export default function ChatsHome({ insights, error }: PageProps) {
               <TabsTrigger value="vulnerabilites">Vulnerabilities</TabsTrigger>
               <TabsTrigger value="dependencies">Dependencies</TabsTrigger>
               <TabsTrigger value="versions">Available versions</TabsTrigger>
+              <TabsTrigger value="insights">Dependency Graph</TabsTrigger>
             </TabsList>
             <TabsContent value="info">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 p-2">
@@ -133,6 +135,9 @@ export default function ChatsHome({ insights, error }: PageProps) {
 
             <TabsContent value="versions">
               <VersionLists insights={insights} />
+            </TabsContent>
+            <TabsContent value="insights">
+              <DependencyGraph insights={insights} />
             </TabsContent>
           </Tabs>
 
