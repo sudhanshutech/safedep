@@ -7,7 +7,30 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function ProjectInsights({ insights }) {
+interface Insights {
+  insight: {
+    projectInsights: {
+      project: {
+        name: string;
+        url: string;
+      };
+      scorecard: {
+        score: number;
+        checks: {
+          name: string;
+          score: number;
+        }[];
+      };
+      stars: number;
+      forks: number;
+      issues: {
+        open: number;
+      };
+    }[];
+  };
+}
+
+export default function ProjectInsights({ insights }: { insights: Insights }) {
   const project = insights?.insight?.projectInsights?.[0]?.project;
   const scorecard = insights?.insight?.projectInsights?.[0]?.scorecard;
   const githubUrl = project?.url;

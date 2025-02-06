@@ -24,7 +24,12 @@ import sampleData from "../sampleData/sample.json";
 //   }
 // }
 
-export default function Home({ data, error }) {
+interface HomeProps {
+  data: any;
+  error?: string;
+}
+
+export default function Home({ data, error }: HomeProps) {
   const InsightsData = sampleData;
   if (error) {
     return <div className="text-red-500 p-4">Error: {error}</div>;

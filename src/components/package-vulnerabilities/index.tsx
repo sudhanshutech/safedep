@@ -6,7 +6,22 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge"; // Import Badge component
 
-export default function Vulnerabilities({ insights }) {
+interface VulnerabilitiesProps {
+  insights: {
+    insight: {
+      vulnerabilities: Array<{
+        summary: string;
+        id: { value: string };
+        severities: Array<{ risk: string }>;
+        publishedAt: string;
+        modifiedAt: string;
+        aliases: Array<{ value: string }>;
+      }>;
+    };
+  };
+}
+
+export default function Vulnerabilities({ insights }: VulnerabilitiesProps) {
   return (
     <>
       <h2 className="text-xl font-bold mb-4 mt-10">Vulnerabilities</h2>
@@ -17,10 +32,11 @@ export default function Vulnerabilities({ insights }) {
             className="border border-gray-300 p-4 shadow bg-white"
           >
             <CardHeader>
-                <Badge variant="outline" className="bg-red-200 text-red-800 border border-red-600 bg-opacity-50 backdrop-filter ">
-              <h3 className="text-lg font-semibold">
-                {vul.summary}
-              </h3>
+              <Badge
+                variant="outline"
+                className="bg-red-200 text-red-800 border border-red-600 bg-opacity-50 backdrop-filter "
+              >
+                <h3 className="text-lg font-semibold">{vul.summary}</h3>
               </Badge>
             </CardHeader>
             <CardContent>

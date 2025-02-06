@@ -14,7 +14,16 @@ import {
   PaginationLink,
 } from "../ui/pagination";
 
-export default function VersionLists({ insights }) {
+interface Insights {
+  insight?: {
+    availableVersions?: Array<{
+      version: string;
+      publishedAt: string;
+    }>;
+  };
+}
+
+export default function VersionLists({ insights }: { insights: Insights }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const versions = insights?.insight?.availableVersions || [];
