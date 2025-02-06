@@ -17,9 +17,11 @@ export default function Vulnerabilities({ insights }) {
             className="border border-gray-300 p-4 shadow bg-white"
           >
             <CardHeader>
-              <h3 className="text-lg font-semibold text-red-600">
+                <Badge variant="outline" className="bg-red-200 text-red-800 border border-red-600 bg-opacity-50 backdrop-filter ">
+              <h3 className="text-lg font-semibold">
                 {vul.summary}
               </h3>
+              </Badge>
             </CardHeader>
             <CardContent>
               <p>

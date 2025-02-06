@@ -17,7 +17,7 @@ import ProjectInsights from "../projectinsight";
 import PackageInfo from "../packages-licenses";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import VersionLists from "../package-versions";
-import ExpressImage from '../../assests/images/express.png';
+import ExpressImage from "../../assests/images/express.png";
 import Image from "next/image";
 
 interface InsightData {
@@ -109,8 +109,8 @@ export default function ChatsHome({ insights, error }: PageProps) {
           <Tabs defaultValue="account">
             <TabsList>
               <TabsTrigger value="info">Package Info</TabsTrigger>
-              <TabsTrigger value="dependencies">Dependencies</TabsTrigger>
               <TabsTrigger value="vulnerabilites">Vulnerabilities</TabsTrigger>
+              <TabsTrigger value="dependencies">Dependencies</TabsTrigger>
               <TabsTrigger value="versions">Available versions</TabsTrigger>
             </TabsList>
             <TabsContent value="info">
@@ -124,12 +124,13 @@ export default function ChatsHome({ insights, error }: PageProps) {
                 </div>
               </div>
             </TabsContent>
-            <TabsContent value="dependencies">
-              <DependenciesTable insights={insights} />
-            </TabsContent>
             <TabsContent value="vulnerabilites">
               <Vulnerabilities insights={insights} />
             </TabsContent>
+            <TabsContent value="dependencies">
+              <DependenciesTable insights={insights} />
+            </TabsContent>
+
             <TabsContent value="versions">
               <VersionLists insights={insights} />
             </TabsContent>
