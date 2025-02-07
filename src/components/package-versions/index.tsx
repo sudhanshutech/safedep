@@ -13,6 +13,7 @@ import {
   PaginationItem,
   PaginationLink,
 } from "../ui/pagination";
+import { Badge } from "@/components/ui/badge"; // Import the Badge component
 
 interface Insights {
   insight?: {
@@ -26,15 +27,19 @@ interface Insights {
 export default function VersionLists({ insights }: { insights: Insights }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const versions = insights?.insight?.availableVersions || [];
+  // Sort versions by publishedAt in descending order (newest first)
+  const versions = [...(insights?.insight?.availableVersions || [])].sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+
   const totalPages = Math.ceil(versions.length / itemsPerPage);
 
   const displayedVersions = versions.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number): void => {
     setCurrentPage(page);
   };
 
@@ -89,9 +94,23 @@ export default function VersionLists({ insights }: { insights: Insights }) {
                 index % 2 === 0 ? "bg-white" : "bg-gray-100"
               }`}
             >
-              <TableCell className="font-bold">{version.version}</TableCell>
+              <TableCell className="font-bold">
+                {version.version}
+                {index === 0 && (
+                  <Badge
+                    variant="outline"
+                    className="ml-2 text-xs bg-green-500 text-white"
+                  >
+                    recommended
+                  </Badge>
+                )}
+              </TableCell>
               <TableCell>
-                {new Date(version.publishedAt).toLocaleDateString()}
+                {new Date(version.publishedAt).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
               </TableCell>
             </TableRow>
           ))}

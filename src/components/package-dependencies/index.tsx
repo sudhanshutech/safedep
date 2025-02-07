@@ -6,7 +6,7 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Badge } from "../ui/badge";
 import {
   Pagination,
@@ -14,11 +14,30 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
+import { Input } from "../ui/input";
 
-export default function DependenciesTable({ insights }) {
+interface Insights {
+  insight: {
+    dependencies: Array<{
+      package: {
+        name: string;
+      };
+      version: string;
+    }>;
+  };
+}
+
+export default function DependenciesTable({
+  insights,
+}: {
+  insights: Insights;
+}) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const dependencies = insights?.insight?.dependencies || [];
+  const dependencies = useMemo(
+    () => insights?.insight?.dependencies || [],
+    [insights]
+  );
   const totalPages = Math.ceil(dependencies.length / itemsPerPage);
 
   const displayedDependencies = dependencies.slice(
@@ -26,13 +45,39 @@ export default function DependenciesTable({ insights }) {
     currentPage * itemsPerPage
   );
 
-  const handlePageChange = (page) => {
+  interface PageChangeHandler {
+    (page: number): void;
+  }
+
+  const handlePageChange: PageChangeHandler = (page) => {
     setCurrentPage(page);
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredDependencies, setFilteredDependencies] = useState(
+    displayedDependencies
+  );
+
+  useEffect(() => {
+    setFilteredDependencies(
+      displayedDependencies.filter((dep) =>
+        dep.package.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm, displayedDependencies]);
+
   return (
     <div>
-      <h3 className="text-xl font-semibold mb-4 mt-10">Dependencies</h3>
+      <h3 className="text-xl font-semibold mb-4 mt-10">
+        Dependencies used by express
+      </h3>
+      <Input
+        type="text"
+        placeholder="Search dependencies..."
+        className="mb-4 p-2 border border-gray-300 rounded"
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
       <div className="overflow-auto" style={{ maxHeight: "600px" }}>
         <Table className="w-full border border-gray-300 rounded-lg">
           <TableHeader>
@@ -44,7 +89,7 @@ export default function DependenciesTable({ insights }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {displayedDependencies.map((dep, index) => (
+            {filteredDependencies.map((dep, index) => (
               <TableRow
                 key={index}
                 className={`hover:bg-gray-50 ${
