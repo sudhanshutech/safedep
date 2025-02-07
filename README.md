@@ -25,3 +25,10 @@ npm install
 1. **Framework**: NextJs
 2. **UI Library**: Shadcn, Tailwind
 3. **Charts**: recharts
+
+<hr/>
+
+### Point to note
+>[!NOTE]
+>Currently the data used for visual insight is used by mock data retrieved from ```sampledata.json```. The safedep insights api is setup properly using server side rendering in page directory.
+Due to disallowed access to the api its been commented out. But that can be used instead of mock data when we will hit the api.
