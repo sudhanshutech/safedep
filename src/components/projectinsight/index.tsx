@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   RadarChart,
   PolarGrid,
@@ -6,6 +6,7 @@ import {
   Radar,
   ResponsiveContainer,
 } from "recharts";
+import { Badge } from "../ui/badge";
 
 interface Insights {
   insight: {
@@ -42,9 +43,12 @@ export default function ProjectInsights({ insights }: { insights: Insights }) {
 
   return (
     <div className="p-4" style={{ width: "600px" }}>
-      <Card className="w-full md:w-auto max-w-md mb-6 shadow-lg">
+      <Card className="w-full md:w-auto max-w-md  shadow-lg">
+        <CardHeader>
+          <h3 className="text-xl font-semibold">Project Metrics</h3>
+        </CardHeader>
         <CardContent className="p-6">
-          <div className="mb-4">
+          <div className="mb-2">
             <p className="mb-2">
               <strong>Project:</strong>{" "}
               <a
@@ -68,8 +72,14 @@ export default function ProjectInsights({ insights }: { insights: Insights }) {
               <strong>Open Issues:</strong>{" "}
               {insights?.insight?.projectInsights?.[0]?.issues.open}
             </p>
-            <p className="mb-2">
-              <strong>Scorecard Score:</strong> {scorecard?.score.toFixed(2)}
+            <p className="mb-2 flex items-center">
+              <strong>Scorecard Score:</strong>
+              <Badge
+                variant="outline"
+                className="ml-2 text-xs bg-green-500 text-white"
+              >
+                {scorecard?.score.toFixed(2)}
+              </Badge>
             </p>
           </div>
           {/* <ResponsiveContainer width="100%" height={300}></ResponsiveContainer> */}
