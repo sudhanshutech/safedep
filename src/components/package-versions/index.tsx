@@ -13,7 +13,7 @@ import {
   PaginationItem,
   PaginationLink,
 } from "../ui/pagination";
-import { Badge } from "@/components/ui/badge"; // Import the Badge component
+import { Badge } from "@/components/ui/badge";
 
 interface Insights {
   insight?: {
@@ -27,7 +27,7 @@ interface Insights {
 export default function VersionLists({ insights }: { insights: Insights }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  // Sort versions by publishedAt in descending order (newest first)
+
   const versions = [...(insights?.insight?.availableVersions || [])].sort(
     (a, b) =>
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
@@ -121,7 +121,6 @@ export default function VersionLists({ insights }: { insights: Insights }) {
       <div className="flex justify-center mt-4">
         <Pagination>
           <PaginationContent>
-            {/* Previous Button */}
             <PaginationItem className="mr-4">
               <PaginationLink
                 onClick={
@@ -138,7 +137,6 @@ export default function VersionLists({ insights }: { insights: Insights }) {
               </PaginationLink>
             </PaginationItem>
 
-            {/* Page Numbers with Ellipsis */}
             {generatePageNumbers().map((page, index) => (
               <PaginationItem key={index}>
                 {page === "..." ? (
@@ -154,7 +152,6 @@ export default function VersionLists({ insights }: { insights: Insights }) {
               </PaginationItem>
             ))}
 
-            {/* Next Button */}
             <PaginationItem>
               <PaginationLink
                 onClick={

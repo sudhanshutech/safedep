@@ -107,7 +107,7 @@ export default function ChatsHome({ insights, error }: PageProps) {
         <SidebarTrigger />
 
         <div className="flex-1 p-8">
-          <Tabs defaultValue="account">
+          <Tabs defaultValue="info">
             <TabsList>
               <TabsTrigger value="info">Package Info</TabsTrigger>
               <TabsTrigger value="vulnerabilites">Vulnerabilities</TabsTrigger>

@@ -4,7 +4,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge"; // Import Badge component
+import { Badge } from "@/components/ui/badge";
 
 interface VulnerabilitiesProps {
   insights: {
@@ -29,7 +29,7 @@ export default function Vulnerabilities({ insights }: VulnerabilitiesProps) {
         {insights?.insight?.vulnerabilities.map((vul, index) => (
           <Card
             key={index}
-            className="border border-gray-300 p-4 shadow bg-white"
+            className="border border-gray-300 p-4 shadow-lg bg-white"
           >
             <CardHeader>
               <Badge

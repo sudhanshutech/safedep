@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface DependencyNodeProps {
   node: {
@@ -19,10 +20,15 @@ function DependencyNode({ node }: DependencyNodeProps) {
   return (
     <div className="ml-4 border-l pl-4">
       <div
-        className="cursor-pointer text-blue-600 flex items-center"
+        className="cursor-pointer flex items-center opacity-80 hover:opacity-100"
         onClick={() => setExpanded((prev) => !prev)}
       >
-        <span className="mr-2">{expanded ? "▼" : "▶"}</span>
+        <Tooltip>
+          <TooltipTrigger>
+            <span className="mr-2">{expanded ? "▼" : "▶"}</span>
+          </TooltipTrigger>
+          <TooltipContent>{expanded ? "Collapse" : "Expand"}</TooltipContent>
+        </Tooltip>
         {node.packageVersion.package.name} ({node.packageVersion.version})
       </div>
       {expanded && node.children && node.children.length > 0 && (

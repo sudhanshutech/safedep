@@ -16,7 +16,11 @@ export default function PackageInfo({ insights }: { insights: Insights }) {
     "N/A";
   const publishedAt = new Date(
     insights?.insight?.packagePublishedAt || ""
-  ).toLocaleDateString();
+  ).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
   const registries = insights?.insight?.registries?.join(", ") || "N/A";
 
   return (
