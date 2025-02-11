@@ -29,7 +29,7 @@ export async function getPackageVersionInsightData() {
 
   const transport = createConnectTransport({
     baseUrl: "https://api.safedep.io",
-    httpVersion: "1.1",
+    // httpVersion: "1.1",
     interceptors: [authenticationInterceptor(token, tenantId)],
   });
   console.log("Transport created",transport);

@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   RadarChart,
@@ -7,31 +8,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Badge } from "../ui/badge";
+import { ProjectInsightsProps } from "@/lib/types";
 
-interface Insights {
-  insight: {
-    projectInsights: {
-      project: {
-        name: string;
-        url: string;
-      };
-      scorecard: {
-        score: number;
-        checks: {
-          name: string;
-          score: number;
-        }[];
-      };
-      stars: number;
-      forks: number;
-      issues: {
-        open: number;
-      };
-    }[];
-  };
-}
-
-export default function ProjectInsights({ insights }: { insights: Insights }) {
+export default function ProjectInsights({
+  insights,
+}: {
+  insights: ProjectInsightsProps;
+}) {
   const project = insights?.insight?.projectInsights?.[0]?.project;
   const scorecard = insights?.insight?.projectInsights?.[0]?.scorecard;
   const githubUrl = project?.url;
@@ -49,7 +32,7 @@ export default function ProjectInsights({ insights }: { insights: Insights }) {
         </CardHeader>
         <CardContent className="p-6">
           <div className="mb-2">
-            <p className="mb-2">
+            <div className="mb-2">
               <strong>Project:</strong>{" "}
               <a
                 href={githubUrl}
@@ -59,20 +42,20 @@ export default function ProjectInsights({ insights }: { insights: Insights }) {
               >
                 {project?.name}
               </a>
-            </p>
-            <p className="mb-2">
+            </div>
+            <div className="mb-2">
               <strong>Stars:</strong>{" "}
               {insights?.insight?.projectInsights?.[0]?.stars}
-            </p>
-            <p className="mb-2">
+            </div>
+            <div className="mb-2">
               <strong>Forks:</strong>{" "}
               {insights?.insight?.projectInsights?.[0]?.forks}
-            </p>
-            <p className="mb-2">
+            </div>
+            <div className="mb-2">
               <strong>Open Issues:</strong>{" "}
               {insights?.insight?.projectInsights?.[0]?.issues.open}
-            </p>
-            <p className="mb-2 flex items-center">
+            </div>
+            <div className="mb-2 flex items-center">
               <strong>Scorecard Score:</strong>
               <Badge
                 variant="outline"
@@ -80,7 +63,7 @@ export default function ProjectInsights({ insights }: { insights: Insights }) {
               >
                 {scorecard?.score.toFixed(2)}
               </Badge>
-            </p>
+            </div>
           </div>
           {/* <ResponsiveContainer width="100%" height={300}></ResponsiveContainer> */}
           <ResponsiveContainer width="100%" height={300}>

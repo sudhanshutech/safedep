@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -5,23 +7,13 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { VulnerabilitiesProps } from "@/lib/types";
 
-interface VulnerabilitiesProps {
-  insights: {
-    insight: {
-      vulnerabilities: Array<{
-        summary: string;
-        id: { value: string };
-        severities: Array<{ risk: string }>;
-        publishedAt: string;
-        modifiedAt: string;
-        aliases: Array<{ value: string }>;
-      }>;
-    };
-  };
-}
-
-export default function Vulnerabilities({ insights }: VulnerabilitiesProps) {
+export default function Vulnerabilities({
+  insights,
+}: {
+  insights: VulnerabilitiesProps;
+}) {
   return (
     <>
       <h2 className="text-xl font-bold mb-4 mt-10">Vulnerabilities</h2>
@@ -40,23 +32,23 @@ export default function Vulnerabilities({ insights }: VulnerabilitiesProps) {
               </Badge>
             </CardHeader>
             <CardContent>
-              <p>
+              <div>
                 <strong>ID:</strong> {vul.id.value}
-              </p>
-              <p>
+              </div>
+              <div>
                 <strong>Risk Level:</strong>{" "}
                 <Badge className="bg-yellow-500 text-white">
                   {vul.severities[0]?.risk || "Unknown"}
                 </Badge>
-              </p>
-              <p>
+              </div>
+              <div>
                 <strong>Published At:</strong>{" "}
                 {new Date(vul.publishedAt).toLocaleDateString()}
-              </p>
-              <p>
+              </div>
+              <div>
                 <strong>Modified At:</strong>{" "}
                 {new Date(vul.modifiedAt).toLocaleDateString()}
-              </p>
+              </div>
             </CardContent>
             <CardFooter>
               <p className="text-sm text-gray-500">
