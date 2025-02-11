@@ -25,6 +25,7 @@ npm install
 1. **Framework**: NextJs
 2. **UI Library**: Shadcn, Tailwind
 3. **Charts**: recharts
+4. **Testing(end-to-end)**: Playwright
 
 <hr/>
 
