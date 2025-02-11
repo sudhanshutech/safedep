@@ -1,4 +1,12 @@
-import React, { useState } from "react";
+"use client";
+
+import DependenciesTable from "@/components/package-dependencies";
+import DependencyGraph from "@/components/package-dependencyGraph";
+import PackageDetails from "@/components/package-Info";
+import VersionLists from "@/components/package-versions";
+import Vulnerabilities from "@/components/package-vulnerabilities";
+import PackageInfo from "@/components/packages-licenses";
+import ProjectInsights from "@/components/projectinsight";
 import {
   Sidebar,
   SidebarContent,
@@ -9,17 +17,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarTrigger,
-} from "../ui/sidebar";
-import PackageDetails from "../package-Info";
-import DependenciesTable from "../package-dependencies";
-import Vulnerabilities from "../package-vulnerabilities";
-import ProjectInsights from "../projectinsight";
-import PackageInfo from "../packages-licenses";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import VersionLists from "../package-versions";
-import ExpressImage from "../../assests/images/express.png";
+} from "@/components/ui/sidebar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
-import DependencyGraph from "../package-dependencyGraph";
+import React, { useState, JSX } from "react";
+import ExpressImage from "../assests/images/express.png";
+import { ComponentProps } from "@/lib/types";
 
 interface InsightData {
   packageVersion?: {
@@ -36,17 +39,29 @@ interface InsightData {
     vulnerabilities: Array<{
       id: { value: string };
       summary: string;
+      severities: Array<{ risk: string }>;
+      publishedAt: string;
+      modifiedAt: string;
+      aliases: Array<{ value: string }>;
     }>;
-    projectInsights: Array<{
+    projectInsights: {
       project: {
         name: string;
+        url: string;
       };
-      stars: string;
-      forks: string;
+      scorecard: {
+        score: number;
+        checks: {
+          name: string;
+          score: number;
+        }[];
+      };
+      stars: number;
+      forks: number;
       issues: {
-        open: string;
+        open: number;
       };
-    }>;
+    }[];
     licenses: {
       licenses: Array<{
         licenseId: string;
@@ -55,22 +70,26 @@ interface InsightData {
   };
 }
 
-interface PageProps {
+interface DashboardProps {
   insights?: InsightData;
   error?: string;
 }
 
-const sideBarItems = [
+const sideBarItems: {
+  title: string;
+  icon: JSX.Element;
+  component: React.ComponentType<ComponentProps> | null;
+}[] = [
   {
     title: "Express",
     icon: <Image src={ExpressImage} alt="Express" width={20} height={20} />,
-    component: "",
+    component: null,
   },
 ];
 
-export default function ChatsHome({ insights, error }: PageProps) {
+export default function PackageDashboard({ insights, error }: DashboardProps) {
   const [activeComponent, setActiveComponent] =
-    useState<React.ComponentType | null>(null);
+    useState<React.ComponentType<ComponentProps> | null>(null); // Use the union type here
 
   if (error) {
     return <div className="text-red-500 p-4">Error: {error}</div>;

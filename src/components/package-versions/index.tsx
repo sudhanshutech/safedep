@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Table,
   TableHeader,
@@ -14,15 +16,7 @@ import {
   PaginationLink,
 } from "../ui/pagination";
 import { Badge } from "@/components/ui/badge";
-
-interface Insights {
-  insight?: {
-    availableVersions?: Array<{
-      version: string;
-      publishedAt: string;
-    }>;
-  };
-}
+import { Insights } from "@/lib/types";
 
 export default function VersionLists({ insights }: { insights: Insights }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -131,7 +125,7 @@ export default function VersionLists({ insights }: { insights: Insights }) {
                 className={
                   currentPage === 1 ? "text-gray-400 cursor-not-allowed" : ""
                 }
-                isDisabled={currentPage === 1}
+                // isDisabled={currentPage === 1}
               >
                 Previous
               </PaginationLink>
@@ -139,15 +133,15 @@ export default function VersionLists({ insights }: { insights: Insights }) {
 
             {generatePageNumbers().map((page, index) => (
               <PaginationItem key={index}>
-                {page === "..." ? (
-                  <span className="px-3 py-1 text-gray-500">...</span>
-                ) : (
+                {typeof page === "number" ? (
                   <PaginationLink
                     isActive={page === currentPage}
                     onClick={() => handlePageChange(page)}
                   >
                     {page}
                   </PaginationLink>
+                ) : (
+                  <span className="px-3 py-1 text-gray-500">...</span>
                 )}
               </PaginationItem>
             ))}
@@ -164,7 +158,7 @@ export default function VersionLists({ insights }: { insights: Insights }) {
                     ? "text-gray-400 cursor-not-allowed"
                     : ""
                 }
-                isDisabled={currentPage === totalPages}
+                // isDisabled={currentPage === totalPages}
               >
                 Next
               </PaginationLink>

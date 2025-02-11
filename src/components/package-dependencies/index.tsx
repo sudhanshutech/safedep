@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Table,
   TableHeader,
@@ -6,7 +8,7 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Badge } from "../ui/badge";
 import {
   Pagination,
@@ -17,7 +19,7 @@ import {
 import { Input } from "../ui/input";
 
 interface Insights {
-  insight: {
+  insight?: {
     dependencies: Array<{
       package: {
         name: string;
@@ -54,17 +56,13 @@ export default function DependenciesTable({
   };
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredDependencies, setFilteredDependencies] = useState(
-    displayedDependencies
-  );
-
-  useEffect(() => {
-    setFilteredDependencies(
+  const filteredDependencies = useMemo(
+    () =>
       displayedDependencies.filter((dep) =>
         dep.package.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  }, [searchTerm, displayedDependencies]);
+      ),
+    [searchTerm, displayedDependencies]
+  );
 
   return (
     <div>
@@ -122,7 +120,6 @@ export default function DependenciesTable({
                 className={
                   currentPage === 1 ? "text-gray-400 cursor-not-allowed" : ""
                 }
-                isDisabled={currentPage === 1}
               >
                 Previous
               </PaginationLink>
@@ -153,7 +150,6 @@ export default function DependenciesTable({
                     ? "text-gray-400 cursor-not-allowed"
                     : ""
                 }
-                isDisabled={currentPage === totalPages}
               >
                 Next
               </PaginationLink>

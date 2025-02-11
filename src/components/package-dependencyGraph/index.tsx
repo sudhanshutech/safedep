@@ -1,6 +1,9 @@
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { DependencyGraphProps } from "@/lib/types";
 
 interface DependencyNodeProps {
   node: {
@@ -42,44 +45,15 @@ function DependencyNode({ node }: DependencyNodeProps) {
   );
 }
 
-interface Insights {
-  dependencyGraph?: {
-    dependencies?: Array<{
-      relation: string;
-      packageVersion: {
-        package: {
-          name: string;
-        };
-        version: string;
-      };
-    }>;
-    dependencyRelations?: Array<{
-      from?: number;
-      to: number;
-    }>;
-  };
-  insight?: {
-    dependencyGraph?: {
-      dependencies?: Array<{
-        relation: string;
-        packageVersion: {
-          package: {
-            name: string;
-          };
-          version: string;
-        };
-      }>;
-      dependencyRelations?: Array<{
-        from?: number;
-        to: number;
-      }>;
-    };
-  };
-}
-
-export default function DependencyGraph({ insights }: { insights: Insights }) {
+export default function DependencyGraph({
+  insights,
+}: {
+  insights: DependencyGraphProps;
+}) {
   const dependencyGraph =
-    insights?.dependencyGraph || insights?.insight?.dependencyGraph || {};
+    insights?.insight?.dependencyGraph ||
+    insights?.insight?.dependencyGraph ||
+    {};
 
   const dependencies = dependencyGraph.dependencies || [];
   const relations = dependencyGraph.dependencyRelations || [];
