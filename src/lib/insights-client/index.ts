@@ -12,8 +12,8 @@ function authenticationInterceptor(token: string, tenant: string): Interceptor {
 }
 
 export async function getPackageVersionInsightData() {
-  const token = process.env.SAFEDEP_API_KEY;
-  const tenantId = process.env.SAFEDEP_TENANT_ID;
+  const token = process.env.NEXT_PUBLIC_SAFEDEP_API_KEY;
+  const tenantId = process.env.NEXT_PUBLIC_SAFEDEP_TENANT_ID;
   console.log("API Key:", token);
   console.log("Tenant ID:", tenantId);
 
@@ -31,6 +31,7 @@ export async function getPackageVersionInsightData() {
     baseUrl: "https://api.safedep.io",
     // httpVersion: "1.1",
     interceptors: [authenticationInterceptor(token, tenantId)],
+    useHttpGet: false
   });
   console.log("Transport created",transport);
 
